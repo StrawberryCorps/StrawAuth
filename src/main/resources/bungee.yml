@@ -4,3 +4,4 @@ version: ${project.version}
 authors:
   - Eclixal
   - Uicias
+depends: StrawCore

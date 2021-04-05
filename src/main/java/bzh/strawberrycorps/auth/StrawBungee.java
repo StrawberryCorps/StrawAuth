@@ -1,8 +1,22 @@
 package bzh.strawberrycorps.auth;
 
+import bzh.strawberry.api.StrawAPIBungee;
+import bzh.strawberry.api.util.SymbolUtils;
 import bzh.strawberrycorps.auth.command.ChangePasswordCommand;
+import bzh.strawberrycorps.auth.command.LoginCommand;
+import bzh.strawberrycorps.auth.command.RegisterCommand;
+import bzh.strawberrycorps.auth.session.ProxiedSession;
+import bzh.strawberrycorps.auth.util.Mojang;
+import bzh.strawberrycorps.auth.util.MojangProfile;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.plugin.Plugin;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.UUID;
 
 /*
  * This file StrawBungee is part of a project StrawAuth.
@@ -13,14 +27,22 @@ import net.md_5.bungee.api.plugin.Plugin;
 public class StrawBungee extends Plugin {
 
     public static StrawBungee STRAW;
+    public static ArrayList<ProxiedSession> SESSIONS;
+
+    private Mojang mojang;
 
     @Override
     public void onEnable() {
         STRAW = this;
         long begin = System.currentTimeMillis();
         getLogger().info("######################## [StrawAuth - " + getDescription().getVersion() + "] #################################");
+        SESSIONS = new ArrayList<>();
 
         ProxyServer.getInstance().getPluginManager().registerCommand(this, new ChangePasswordCommand());
+        ProxyServer.getInstance().getPluginManager().registerCommand(this, new LoginCommand());
+        ProxyServer.getInstance().getPluginManager().registerCommand(this, new RegisterCommand());
+
+        this.mojang = new Mojang(getLogger());
 
         getLogger().info("Plugin enabled in "+(System.currentTimeMillis() - begin)+" ms.");
         getLogger().info("######################## [StrawAuth - " + getDescription().getVersion() + "] #################################");
@@ -29,5 +51,23 @@ public class StrawBungee extends Plugin {
     @Override
     public void onDisable() {
 
+    }
+
+    public String getPrefix() {
+        return "§cLBEN §7" + SymbolUtils.ARROW_DOUBLE + " §r";
+    }
+
+    public Mojang getMojang() {
+        return mojang;
+    }
+
+    public ProxiedSession getProxiedSession(UUID uuid) {
+        return SESSIONS.stream().filter(proxiedSession -> proxiedSession.getUuid().equals(uuid)).findFirst().orElse(null);
+    }
+
+    public ProxiedSession getProxiedSessionFromDB(UUID uuid) {
+        if (getProxiedSession(uuid) != null)
+            return getProxiedSession(uuid);
+        return new ProxiedSession(uuid);
     }
 }

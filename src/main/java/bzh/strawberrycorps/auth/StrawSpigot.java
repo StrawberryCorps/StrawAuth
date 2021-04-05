@@ -2,6 +2,9 @@ package bzh.strawberrycorps.auth;
 
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.util.ArrayList;
+import java.util.UUID;
+
 /*
  * This file StrawSpigot is part of a project StrawAuth.
  * It was created on 05/04/2021 14:33 by Eclixal.

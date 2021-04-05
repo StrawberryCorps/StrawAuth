@@ -19,7 +19,7 @@ public class StrawSpigot extends JavaPlugin {
         getLogger().info("######################## [StrawAuth - " + getDescription().getVersion() + "] #################################");
 
         getLogger().info("Plugin enabled in "+(System.currentTimeMillis() - begin)+" ms.");
-        getLogger().info("######################## [Seablock - " + getDescription().getVersion() + "] #################################");
+        getLogger().info("######################## [StrawAuth - " + getDescription().getVersion() + "] #################################");
     }
 
     @Override

@@ -1,5 +1,7 @@
 package bzh.strawberrycorps.auth;
 
+import bzh.strawberrycorps.auth.command.ChangePasswordCommand;
+import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.plugin.Plugin;
 
 /*
@@ -18,8 +20,10 @@ public class StrawBungee extends Plugin {
         long begin = System.currentTimeMillis();
         getLogger().info("######################## [StrawAuth - " + getDescription().getVersion() + "] #################################");
 
+        ProxyServer.getInstance().getPluginManager().registerCommand(this, new ChangePasswordCommand());
+
         getLogger().info("Plugin enabled in "+(System.currentTimeMillis() - begin)+" ms.");
-        getLogger().info("######################## [Seablock - " + getDescription().getVersion() + "] #################################");
+        getLogger().info("######################## [StrawAuth - " + getDescription().getVersion() + "] #################################");
     }
 
     @Override

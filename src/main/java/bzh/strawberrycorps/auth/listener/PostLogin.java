@@ -1,5 +1,15 @@
 package bzh.strawberrycorps.auth.listener;
 
+import bzh.strawberrycorps.auth.StrawBungee;
+import bzh.strawberrycorps.auth.session.ProxiedSession;
+import net.md_5.bungee.api.ProxyServer;
+import net.md_5.bungee.api.chat.TextComponent;
+import net.md_5.bungee.api.connection.ProxiedPlayer;
+import net.md_5.bungee.api.event.PostLoginEvent;
+import net.md_5.bungee.api.plugin.Listener;
+import net.md_5.bungee.event.EventHandler;
+import net.md_5.bungee.event.EventPriority;
+
 /*
  * This file ProxiedPlayerDisconnect is part of a project StrawAuth.
  * It was created on 05/04/2021 16:21 by Eclixal.
@@ -8,7 +18,7 @@ package bzh.strawberrycorps.auth.listener;
  */
 public class PostLogin implements Listener {
 
-    @EventHandler (priority = EventPriority.LOWEST)
+    @EventHandler(priority = EventPriority.LOWEST)
     public void onPostLogin(PostLoginEvent event) {
         // save du temps pour stats
         long startTime = System.currentTimeMillis();

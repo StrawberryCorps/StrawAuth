@@ -1,0 +1,6 @@
+name: StrawAuth
+main: bzh.strawberrycorps.auth.AuthBungee
+version: ${project.version}
+authors:
+  - Eclixal
+  - Uicias

@@ -44,7 +44,7 @@ public class ProxiedSession {
             preparedStatement.setString(1, uuid.toString());
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
-                straw_id = resultSet.getInt("straw_id");
+                straw_id = resultSet.getInt("id");
                 this.uuid = UUID.fromString(resultSet.getString("uuid"));
                 this.password = resultSet.getString("password");
                 this.premium = resultSet.getBoolean("premium");
@@ -206,7 +206,7 @@ public class ProxiedSession {
         boolean exist = false;
         try {
             Connection connection = StrawAPIBungee.getAPI().getDataFactory().getDataSource().getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement("");
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM players WHERE uuid = ?");
             preparedStatement.setString(1, uuid.toString());
             ResultSet resultSet = preparedStatement.executeQuery();
             exist = resultSet.next();

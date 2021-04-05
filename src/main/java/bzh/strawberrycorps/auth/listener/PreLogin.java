@@ -37,9 +37,9 @@ public class PreLogin implements Listener {
                 PendingConnection pendingConnection = event.getConnection();
 
                 // Check pseudo crack
-                if (pendingConnection.getName().matches("[a-zA-Z0-9_]{3,16}")) {
+                if (!pendingConnection.getName().matches("[a-zA-Z0-9_]{3,16}")) {
                     event.setCancelled(true);
-                    event.setCancelReason(new ComponentBuilder("").create());
+                    event.setCancelReason(new ComponentBuilder("pseudo de merde").create());
                     event.completeIntent(StrawBungee.STRAW);
                     return;
                 }
@@ -47,7 +47,7 @@ public class PreLogin implements Listener {
                 // Check already online
                 if (ProxyServer.getInstance().getPlayer(pendingConnection.getName()) != null) {
                     event.setCancelled(true);
-                    event.setCancelReason(new ComponentBuilder("").create());
+                    event.setCancelReason(new ComponentBuilder("tg").create());
                     event.completeIntent(StrawBungee.STRAW);
                     return;
                 }
@@ -102,7 +102,7 @@ public class PreLogin implements Listener {
                 StrawBungee.SESSIONS.add(proxiedSession);
                 pendingConnection.setOnlineMode(proxiedSession.isPremium());
                 event.completeIntent(StrawBungee.STRAW);
-                StrawBungee.STRAW.getLogger().info("StrawAuth - PreLogin " + pendingConnection.getUniqueId() + " - " + (System.currentTimeMillis() - tick) + "ms");
+                StrawBungee.STRAW.getLogger().info("StrawAuth - PreLogin " + uuid + " - " + (System.currentTimeMillis() - tick) + "ms");
             } catch (SQLException e) {
                 e.printStackTrace();
             }

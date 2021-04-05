@@ -5,6 +5,10 @@ import bzh.strawberry.api.util.SymbolUtils;
 import bzh.strawberrycorps.auth.command.ChangePasswordCommand;
 import bzh.strawberrycorps.auth.command.LoginCommand;
 import bzh.strawberrycorps.auth.command.RegisterCommand;
+import bzh.strawberrycorps.auth.listener.PostLogin;
+import bzh.strawberrycorps.auth.listener.PreLogin;
+import bzh.strawberrycorps.auth.listener.ProxiedPlayerDisconnect;
+import bzh.strawberrycorps.auth.listener.ServerConnect;
 import bzh.strawberrycorps.auth.session.ProxiedSession;
 import bzh.strawberrycorps.auth.util.Mojang;
 import bzh.strawberrycorps.auth.util.MojangProfile;
@@ -41,6 +45,11 @@ public class StrawBungee extends Plugin {
         ProxyServer.getInstance().getPluginManager().registerCommand(this, new ChangePasswordCommand());
         ProxyServer.getInstance().getPluginManager().registerCommand(this, new LoginCommand());
         ProxyServer.getInstance().getPluginManager().registerCommand(this, new RegisterCommand());
+
+        getProxy().getPluginManager().registerListener(this, new PostLogin());
+        getProxy().getPluginManager().registerListener(this, new PreLogin());
+        getProxy().getPluginManager().registerListener(this, new ProxiedPlayerDisconnect());
+        getProxy().getPluginManager().registerListener(this, new ServerConnect());
 
         this.mojang = new Mojang(getLogger());
 

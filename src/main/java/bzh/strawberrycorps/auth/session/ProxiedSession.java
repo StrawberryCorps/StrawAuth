@@ -187,12 +187,11 @@ public class ProxiedSession {
     public void update() {
         try {
             Connection connection = StrawAPIBungee.getAPI().getDataFactory().getDataSource().getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement("UPDATE players SET pseudo = ?, ip = ?, password = ? WHERE uuid = ? OR pseudo = ?");
+            PreparedStatement preparedStatement = connection.prepareStatement("UPDATE players SET pseudo = ?, ip = ?, password = ? WHERE uuid = ?");
             preparedStatement.setString(1, this.username);
             preparedStatement.setString(2, this.lastIP);
             preparedStatement.setString(3, this.password);
             preparedStatement.setString(4, this.uuid.toString());
-            preparedStatement.setString(5, this.username);
             preparedStatement.executeUpdate();
             preparedStatement.close();
             connection.close();

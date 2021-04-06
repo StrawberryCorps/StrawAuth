@@ -63,7 +63,7 @@ public class StrawBungee extends Plugin {
     }
 
     public String getPrefix() {
-        return "§cLBEN §7" + SymbolUtils.ARROW_DOUBLE + " §r";
+        return "§cSTRAW §7" + SymbolUtils.ARROW_DOUBLE + " §r";
     }
 
     public Mojang getMojang() {

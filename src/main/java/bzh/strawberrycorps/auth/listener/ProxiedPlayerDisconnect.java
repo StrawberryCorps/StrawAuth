@@ -1,6 +1,6 @@
 package bzh.strawberrycorps.auth.listener;
 
-import bzh.strawberrycorps.auth.StrawBungee;
+import bzh.strawberrycorps.auth.AuthBungee;
 import net.md_5.bungee.api.event.PlayerDisconnectEvent;
 import net.md_5.bungee.api.plugin.Listener;
 import net.md_5.bungee.event.EventHandler;
@@ -15,7 +15,7 @@ public class ProxiedPlayerDisconnect implements Listener {
 
     @EventHandler
     public void onDisconnect(PlayerDisconnectEvent event) {
-        StrawBungee.STRAW.getProxiedSession(event.getPlayer().getUniqueId()).save();
-        StrawBungee.SESSIONS.remove(StrawBungee.STRAW.getProxiedSession(event.getPlayer().getUniqueId()));
+        AuthBungee.STRAW.getProxiedSession(event.getPlayer().getUniqueId()).save();
+        AuthBungee.SESSIONS.remove(AuthBungee.STRAW.getProxiedSession(event.getPlayer().getUniqueId()));
     }
 }

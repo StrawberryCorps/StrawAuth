@@ -1,6 +1,6 @@
 package bzh.strawberrycorps.auth.listener;
 
-import bzh.strawberrycorps.auth.StrawBungee;
+import bzh.strawberrycorps.auth.AuthBungee;
 import bzh.strawberrycorps.auth.session.ProxiedSession;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.event.ServerConnectEvent;
@@ -16,11 +16,12 @@ import net.md_5.bungee.event.EventPriority;
  */
 public class ServerConnect implements Listener {
 
-    @EventHandler(priority = EventPriority.LOWEST)
+    @EventHandler(priority = EventPriority.NORMAL)
     public void onServerConnect(ServerConnectEvent event) {
-        ProxiedSession proxiedSession = StrawBungee.STRAW.getProxiedSession(event.getPlayer().getUniqueId());
+        ProxiedSession proxiedSession = AuthBungee.STRAW.getProxiedSession(event.getPlayer().getUniqueId());
         if (proxiedSession == null) return;
         if (proxiedSession.isLogged() || proxiedSession.isPremium()) return;
-        event.setTarget(ProxyServer.getInstance().getServerInfo("Login"));
+        if (event.getTarget() != null && !event.getTarget().getName().equals("Login"))
+            event.setTarget(ProxyServer.getInstance().getServerInfo("Login"));
     }
 }

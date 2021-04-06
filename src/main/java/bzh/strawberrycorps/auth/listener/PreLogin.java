@@ -1,7 +1,7 @@
 package bzh.strawberrycorps.auth.listener;
 
 import bzh.strawberry.api.StrawAPIBungee;
-import bzh.strawberrycorps.auth.StrawBungee;
+import bzh.strawberrycorps.auth.AuthBungee;
 import bzh.strawberrycorps.auth.session.ProxiedSession;
 import bzh.strawberrycorps.auth.util.MojangProfile;
 import net.md_5.bungee.api.ProxyServer;
@@ -12,7 +12,6 @@ import net.md_5.bungee.api.plugin.Listener;
 import net.md_5.bungee.event.EventHandler;
 import net.md_5.bungee.event.EventPriority;
 
-import javax.xml.transform.Result;
 import java.nio.charset.StandardCharsets;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -30,8 +29,8 @@ public class PreLogin implements Listener {
 
     @EventHandler(priority = EventPriority.LOWEST)
     public void onLogin(PreLoginEvent event) {
-        event.registerIntent(StrawBungee.STRAW);
-        ProxyServer.getInstance().getScheduler().runAsync(StrawBungee.STRAW, () -> {
+        event.registerIntent(AuthBungee.STRAW);
+        ProxyServer.getInstance().getScheduler().runAsync(AuthBungee.STRAW, () -> {
             long tick = System.currentTimeMillis();
             try {
                 PendingConnection pendingConnection = event.getConnection();
@@ -40,7 +39,7 @@ public class PreLogin implements Listener {
                 if (!pendingConnection.getName().matches("[a-zA-Z0-9_]{3,16}")) {
                     event.setCancelled(true);
                     event.setCancelReason(new ComponentBuilder("pseudo de merde").create());
-                    event.completeIntent(StrawBungee.STRAW);
+                    event.completeIntent(AuthBungee.STRAW);
                     return;
                 }
 
@@ -48,7 +47,7 @@ public class PreLogin implements Listener {
                 if (ProxyServer.getInstance().getPlayer(pendingConnection.getName()) != null) {
                     event.setCancelled(true);
                     event.setCancelReason(new ComponentBuilder("tg").create());
-                    event.completeIntent(StrawBungee.STRAW);
+                    event.completeIntent(AuthBungee.STRAW);
                     return;
                 }
 
@@ -70,12 +69,12 @@ public class PreLogin implements Listener {
                 preparedStatement.close();
                 connection.close();
 
-                ProxiedSession proxiedSession = StrawBungee.STRAW.getProxiedSessionFromDB(uuid);
+                ProxiedSession proxiedSession = AuthBungee.STRAW.getProxiedSessionFromDB(uuid);
 
                 proxiedSession.setUsername(pendingConnection.getName());
                 proxiedSession.setLastIP(pendingConnection.getAddress().getAddress().getHostAddress());
 
-                MojangProfile mojangProfile = StrawBungee.STRAW.getMojang().getPremiumProfile(pendingConnection.getName());
+                MojangProfile mojangProfile = AuthBungee.STRAW.getMojang().getPremiumProfile(pendingConnection.getName());
                 if (mojangProfile != null && mojangProfile.isOnlineMode()) {
                     proxiedSession.setUuid(mojangProfile.getUuid());
                     proxiedSession.setUsername(mojangProfile.getUser());
@@ -83,7 +82,7 @@ public class PreLogin implements Listener {
                 } else if (mojangProfile == null || mojangProfile.isError()) {
                     event.setCancelled(true);
                     event.setCancelReason(new ComponentBuilder("§cLes serveurs d'authentification sont indisponibles.").create());
-                    event.completeIntent(StrawBungee.STRAW);
+                    event.completeIntent(AuthBungee.STRAW);
                     return;
                 }
 
@@ -104,9 +103,9 @@ public class PreLogin implements Listener {
                 }
 
                 pendingConnection.setOnlineMode(proxiedSession.isPremium());
-                StrawBungee.SESSIONS.add(proxiedSession);
-                event.completeIntent(StrawBungee.STRAW);
-                StrawBungee.STRAW.getLogger().info("StrawAuth - PreLogin " + proxiedSession.getUuid() + " - " + (System.currentTimeMillis() - tick) + "ms");
+                AuthBungee.SESSIONS.add(proxiedSession);
+                event.completeIntent(AuthBungee.STRAW);
+                AuthBungee.STRAW.getLogger().info("StrawAuth - PreLogin " + proxiedSession.getUuid() + " - " + (System.currentTimeMillis() - tick) + "ms");
             } catch (SQLException e) {
                 e.printStackTrace();
             }

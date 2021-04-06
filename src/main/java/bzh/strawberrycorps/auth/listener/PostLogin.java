@@ -1,6 +1,6 @@
 package bzh.strawberrycorps.auth.listener;
 
-import bzh.strawberrycorps.auth.StrawBungee;
+import bzh.strawberrycorps.auth.AuthBungee;
 import bzh.strawberrycorps.auth.session.ProxiedSession;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -25,13 +25,13 @@ public class PostLogin implements Listener {
 
         // var utiles
         final ProxiedPlayer player = event.getPlayer();
-        ProxiedSession session = StrawBungee.STRAW.getProxiedSession(player.getUniqueId());
+        ProxiedSession session = AuthBungee.STRAW.getProxiedSession(player.getUniqueId());
 
         // save du pseudo du joueur : changement de pseudo d'un premium :smirk:
         session.setUsername(player.getName());
         session.setLastIP(player.getAddress().getAddress().getHostAddress());
 
-        if(!session.isPremium()){
+        if(!session.isPremium()) {
 
             //register
             if(session.getPassword() == null){
@@ -45,7 +45,7 @@ public class PostLogin implements Listener {
             }
 
         } else {
-            player.sendMessage(new TextComponent(StrawBungee.STRAW.getPrefix() + "§aConnecté sous compte premium"));
+            player.sendMessage(new TextComponent(AuthBungee.STRAW.getPrefix() + "§aConnecté sous compte premium"));
             session.setLastIP(player.getAddress().getAddress().getHostAddress());
             session.setLogged(true);
             if (player.getServer() != null && !player.getServer().getInfo().getName().equals("Lobby"))

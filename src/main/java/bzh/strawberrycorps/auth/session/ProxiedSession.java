@@ -1,12 +1,10 @@
 package bzh.strawberrycorps.auth.session;
 
 import bzh.strawberry.api.StrawAPIBungee;
-import bzh.strawberrycorps.auth.StrawBungee;
+import bzh.strawberrycorps.auth.AuthBungee;
 import bzh.strawberrycorps.auth.util.Encrypt;
 import net.md_5.bungee.api.ProxyServer;
-import net.md_5.bungee.api.connection.ProxiedPlayer;
 
-import java.lang.reflect.Proxy;
 import java.sql.*;
 import java.util.UUID;
 
@@ -148,7 +146,7 @@ public class ProxiedSession {
 
     public void save() {
         // @TODO On save a la deconnection
-        ProxyServer.getInstance().getScheduler().runAsync(StrawBungee.STRAW, () -> {
+        ProxyServer.getInstance().getScheduler().runAsync(AuthBungee.STRAW, () -> {
             try {
                 Connection connection = StrawAPIBungee.getAPI().getDataFactory().getDataSource().getConnection();
                 PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO sessions () VALUES ()");

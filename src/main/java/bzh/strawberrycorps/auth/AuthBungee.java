@@ -1,24 +1,15 @@
 package bzh.strawberrycorps.auth;
 
-import bzh.strawberry.api.StrawAPIBungee;
 import bzh.strawberry.api.util.SymbolUtils;
 import bzh.strawberrycorps.auth.command.ChangePasswordCommand;
 import bzh.strawberrycorps.auth.command.LoginCommand;
 import bzh.strawberrycorps.auth.command.RegisterCommand;
-import bzh.strawberrycorps.auth.listener.PostLogin;
-import bzh.strawberrycorps.auth.listener.PreLogin;
-import bzh.strawberrycorps.auth.listener.ProxiedPlayerDisconnect;
-import bzh.strawberrycorps.auth.listener.ServerConnect;
+import bzh.strawberrycorps.auth.listener.*;
 import bzh.strawberrycorps.auth.session.ProxiedSession;
 import bzh.strawberrycorps.auth.util.Mojang;
-import bzh.strawberrycorps.auth.util.MojangProfile;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.plugin.Plugin;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.UUID;
 
@@ -28,9 +19,9 @@ import java.util.UUID;
  * This file as the whole project shouldn't be modify by others without the express permission from StrawAuth author(s).
  * Also this comment shouldn't get remove from the file. (see Licence)
  */
-public class StrawBungee extends Plugin {
+public class AuthBungee extends Plugin {
 
-    public static StrawBungee STRAW;
+    public static AuthBungee STRAW;
     public static ArrayList<ProxiedSession> SESSIONS;
 
     private Mojang mojang;
@@ -50,6 +41,7 @@ public class StrawBungee extends Plugin {
         getProxy().getPluginManager().registerListener(this, new PreLogin());
         getProxy().getPluginManager().registerListener(this, new ProxiedPlayerDisconnect());
         getProxy().getPluginManager().registerListener(this, new ServerConnect());
+        getProxy().getPluginManager().registerListener(this, new PlayerChat());
 
         this.mojang = new Mojang(getLogger());
 

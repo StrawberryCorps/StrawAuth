@@ -1,7 +1,7 @@
 package bzh.strawberrycorps.auth.command;
 
 import bzh.strawberry.api.command.AbstractBCommand;
-import bzh.strawberrycorps.auth.StrawBungee;
+import bzh.strawberrycorps.auth.AuthBungee;
 import bzh.strawberrycorps.auth.session.ProxiedSession;
 import bzh.strawberrycorps.auth.util.Encrypt;
 import net.md_5.bungee.api.CommandSender;
@@ -18,7 +18,7 @@ import net.md_5.bungee.api.connection.ProxiedPlayer;
 public class ChangePasswordCommand extends AbstractBCommand {
 
     public ChangePasswordCommand() {
-        super(StrawBungee.STRAW, "changepassword", "auth.changepassword");
+        super(AuthBungee.STRAW, "changepassword", "auth.changepassword");
     }
 
     @Override
@@ -28,43 +28,43 @@ public class ChangePasswordCommand extends AbstractBCommand {
 
         ProxiedPlayer proxiedPlayer = (ProxiedPlayer) commandSender;
         if (strings.length < 2) {
-            proxiedPlayer.sendMessage(new ComponentBuilder(StrawBungee.STRAW.getPrefix() + " §6Utilise : /changepassword <mdp> <nouveau mdp>").create());
+            proxiedPlayer.sendMessage(new ComponentBuilder(AuthBungee.STRAW.getPrefix() + " §6Utilise : /changepassword <mdp> <nouveau mdp>").create());
             return false;
         }
 
-        ProxiedSession proxiedSession = StrawBungee.STRAW.getProxiedSession(proxiedPlayer.getUniqueId());
+        ProxiedSession proxiedSession = AuthBungee.STRAW.getProxiedSession(proxiedPlayer.getUniqueId());
         if (!proxiedSession.isPremium() && proxiedSession.getPassword() == null) {
-            proxiedPlayer.sendMessage(new ComponentBuilder(StrawBungee.STRAW.getPrefix() + " §cVous devez être enregistré !").create());
+            proxiedPlayer.sendMessage(new ComponentBuilder(AuthBungee.STRAW.getPrefix() + " §cVous devez être enregistré !").create());
             return false;
         }
         if (proxiedSession.isPremium() || !proxiedSession.isLogged()) {
-            proxiedPlayer.sendMessage(new ComponentBuilder(StrawBungee.STRAW.getPrefix() + " §cVous n'êtes pas authentifié !").create());
+            proxiedPlayer.sendMessage(new ComponentBuilder(AuthBungee.STRAW.getPrefix() + " §cVous n'êtes pas authentifié !").create());
             return false;
         }
 
         if (!Encrypt.getSHA512(strings[0]).equals(proxiedSession.getPassword())) {
-            proxiedPlayer.sendMessage(new ComponentBuilder(StrawBungee.STRAW.getPrefix() + " §cMot de passe incorrect !").create());
+            proxiedPlayer.sendMessage(new ComponentBuilder(AuthBungee.STRAW.getPrefix() + " §cMot de passe incorrect !").create());
             return false;
         }
 
         if (!Encrypt.getSHA512(strings[1]).equals(proxiedSession.getPassword())) {
-            proxiedPlayer.sendMessage(new ComponentBuilder(StrawBungee.STRAW.getPrefix() + " §cLe mot de passe doit être différent !").create());
+            proxiedPlayer.sendMessage(new ComponentBuilder(AuthBungee.STRAW.getPrefix() + " §cLe mot de passe doit être différent !").create());
             return false;
         }
 
         if (strings[1].equals(proxiedSession.getUsername())) {
-            proxiedPlayer.sendMessage(new ComponentBuilder(StrawBungee.STRAW.getPrefix() + " §cVotre mot de passe ne peut pas être votre pseudo !").create());
+            proxiedPlayer.sendMessage(new ComponentBuilder(AuthBungee.STRAW.getPrefix() + " §cVotre mot de passe ne peut pas être votre pseudo !").create());
             return false;
         }
 
         if (strings[1].length() < 6) {
-            proxiedPlayer.sendMessage(new ComponentBuilder(StrawBungee.STRAW.getPrefix() + " §cVotre mot de passe doit avoir plus de 6 caractères !").create());
+            proxiedPlayer.sendMessage(new ComponentBuilder(AuthBungee.STRAW.getPrefix() + " §cVotre mot de passe doit avoir plus de 6 caractères !").create());
             return false;
         }
 
         proxiedSession.setPassword(strings[1]);
-        ProxyServer.getInstance().getScheduler().runAsync(StrawBungee.STRAW, proxiedSession::update);
-        proxiedPlayer.sendMessage(new ComponentBuilder(StrawBungee.STRAW.getPrefix() + " §cVous avez bien changé votre mot de passe !").create());
+        ProxyServer.getInstance().getScheduler().runAsync(AuthBungee.STRAW, proxiedSession::update);
+        proxiedPlayer.sendMessage(new ComponentBuilder(AuthBungee.STRAW.getPrefix() + " §cVous avez bien changé votre mot de passe !").create());
         return true;
     }
 }

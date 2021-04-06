@@ -57,6 +57,7 @@ public class PreLogin implements Listener {
                 if (uuid == null) {
                     uuid = UUID.nameUUIDFromBytes(("OfflinePlayer:" + pendingConnection.getName()).getBytes(StandardCharsets.UTF_8));
                 }
+
                 Connection connection = StrawAPIBungee.getAPI().getDataFactory().getDataSource().getConnection();
                 PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM players WHERE pseudo = ?");
                 preparedStatement.setString(1, pendingConnection.getName());
@@ -70,14 +71,15 @@ public class PreLogin implements Listener {
                 connection.close();
 
                 ProxiedSession proxiedSession = StrawBungee.STRAW.getProxiedSessionFromDB(uuid);
-                if (proxiedSession == null) {
-                    proxiedSession = new ProxiedSession(uuid, pendingConnection.getName(), pendingConnection.getAddress().getAddress().getHostAddress());
-                }
+
+                proxiedSession.setUsername(pendingConnection.getName());
+                proxiedSession.setLastIP(pendingConnection.getAddress().getAddress().getHostAddress());
 
                 MojangProfile mojangProfile = StrawBungee.STRAW.getMojang().getPremiumProfile(pendingConnection.getName());
                 if (mojangProfile != null && mojangProfile.isOnlineMode()) {
                     proxiedSession.setUuid(mojangProfile.getUuid());
                     proxiedSession.setUsername(mojangProfile.getUser());
+                    System.out.println(mojangProfile.toString());
                 } else if (mojangProfile == null || mojangProfile.isError()) {
                     event.setCancelled(true);
                     event.setCancelReason(new ComponentBuilder("§cLes serveurs d'authentification sont indisponibles.").create());
@@ -86,6 +88,7 @@ public class PreLogin implements Listener {
                 }
 
                 proxiedSession.setPremium(mojangProfile.isOnlineMode());
+
                 if (proxiedSession.isPremium()) {
                     if (mojangProfile.isOnlineMode()) {
                         if (proxiedSession.exist())
@@ -99,10 +102,11 @@ public class PreLogin implements Listener {
                     pendingConnection.setUniqueId(uuid);
                     proxiedSession.setUuid(uuid);
                 }
-                StrawBungee.SESSIONS.add(proxiedSession);
+
                 pendingConnection.setOnlineMode(proxiedSession.isPremium());
+                StrawBungee.SESSIONS.add(proxiedSession);
                 event.completeIntent(StrawBungee.STRAW);
-                StrawBungee.STRAW.getLogger().info("StrawAuth - PreLogin " + uuid + " - " + (System.currentTimeMillis() - tick) + "ms");
+                StrawBungee.STRAW.getLogger().info("StrawAuth - PreLogin " + proxiedSession.getUuid() + " - " + (System.currentTimeMillis() - tick) + "ms");
             } catch (SQLException e) {
                 e.printStackTrace();
             }

@@ -29,7 +29,7 @@ public class PostLogin implements Listener {
 
         // save du pseudo du joueur : changement de pseudo d'un premium :smirk:
         session.setUsername(player.getName());
-        session.setLastIP(player.getSocketAddress().toString());
+        session.setLastIP(player.getAddress().getAddress().getHostAddress());
 
         if(!session.isPremium()){
 
@@ -48,7 +48,8 @@ public class PostLogin implements Listener {
             player.sendMessage(new TextComponent(StrawBungee.STRAW.getPrefix() + "§aConnecté sous compte premium"));
             session.setLastIP(player.getAddress().getAddress().getHostAddress());
             session.setLogged(true);
-            player.connect(ProxyServer.getInstance().getServerInfo("Lobby"));
+            if (player.getServer() != null && !player.getServer().getInfo().getName().equals("Lobby"))
+                player.connect(ProxyServer.getInstance().getServerInfo("Lobby"));
         }
 
 //        StrawSpigot.STRAW.getLogger().info("[StrawAuth] PostLoginEvent : Compte de " + player.getName() + " chargé en " + (System.currentTimeMillis() - startTime) + " ms");

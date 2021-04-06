@@ -37,7 +37,7 @@ public class LoginCommand extends AbstractBCommand {
             proxiedPlayer.sendMessage(new ComponentBuilder(StrawBungee.STRAW.getPrefix() + " §cVous êtes pas enregistré !").create());
             return false;
         }
-        if (!proxiedSession.isPremium() && proxiedSession.isLogged()) {
+        if (proxiedSession.isPremium() || proxiedSession.isLogged()) {
             proxiedPlayer.sendMessage(new ComponentBuilder(StrawBungee.STRAW.getPrefix() + " §cVous êtes déjà authentifié !").create());
             return false;
         }
@@ -49,9 +49,9 @@ public class LoginCommand extends AbstractBCommand {
 
         ProxyServer.getInstance().getScheduler().runAsync(StrawBungee.STRAW, proxiedSession::update);
         proxiedPlayer.sendMessage(new ComponentBuilder(StrawBungee.STRAW.getPrefix() + " §aVous êtes connecté").create());
-        proxiedPlayer.connect(ProxyServer.getInstance().getServerInfo("Lobby"));
         proxiedSession.setLastIP(proxiedPlayer.getAddress().getAddress().getHostAddress());
         proxiedSession.setLogged(true);
+        proxiedPlayer.connect(ProxyServer.getInstance().getServerInfo("Lobby"));
         return true;
     }
 }

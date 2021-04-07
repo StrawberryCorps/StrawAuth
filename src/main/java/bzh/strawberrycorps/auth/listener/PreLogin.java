@@ -38,7 +38,7 @@ public class PreLogin implements Listener {
                 // Check pseudo crack
                 if (!pendingConnection.getName().matches("[a-zA-Z0-9_]{3,16}")) {
                     event.setCancelled(true);
-                    event.setCancelReason(new ComponentBuilder("pseudo de merde").create());
+                    event.setCancelReason(new ComponentBuilder("§cVotre pseudo ne respecte pas la norme !").create());
                     event.completeIntent(AuthBungee.STRAW);
                     return;
                 }
@@ -46,7 +46,7 @@ public class PreLogin implements Listener {
                 // Check already online
                 if (ProxyServer.getInstance().getPlayer(pendingConnection.getName()) != null) {
                     event.setCancelled(true);
-                    event.setCancelReason(new ComponentBuilder("tg").create());
+                    event.setCancelReason(new ComponentBuilder("§cVous êtes déjà en ligne :(").create());
                     event.completeIntent(AuthBungee.STRAW);
                     return;
                 }
@@ -89,12 +89,8 @@ public class PreLogin implements Listener {
                 proxiedSession.setPremium(mojangProfile.isOnlineMode());
 
                 if (proxiedSession.isPremium()) {
-                    if (mojangProfile.isOnlineMode()) {
-                        if (proxiedSession.exist())
-                            proxiedSession.update();
-                        else
-                            proxiedSession.insert();
-                    }
+                    if (mojangProfile.isOnlineMode())
+                        proxiedSession.insert();
                 }
 
                 if (!proxiedSession.isPremium()) {
@@ -103,6 +99,7 @@ public class PreLogin implements Listener {
                 }
 
                 pendingConnection.setOnlineMode(proxiedSession.isPremium());
+                proxiedSession.setVersion(pendingConnection.getVersion());
                 AuthBungee.SESSIONS.add(proxiedSession);
                 event.completeIntent(AuthBungee.STRAW);
                 AuthBungee.STRAW.getLogger().info("StrawAuth - PreLogin " + proxiedSession.getUuid() + " - " + (System.currentTimeMillis() - tick) + "ms");

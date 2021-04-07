@@ -6,6 +6,7 @@ import bzh.strawberrycorps.auth.util.Encrypt;
 import net.md_5.bungee.api.ProxyServer;
 
 import java.sql.*;
+import java.util.Date;
 import java.util.UUID;
 
 /*
@@ -28,11 +29,11 @@ public class ProxiedSession {
     private int version;
     private boolean inDb;
 
-
     public ProxiedSession(UUID uuid, String name, String lastIP) {
         this.uuid = uuid;
         this.username = name;
         this.lastIP = lastIP;
+        this.start = new Timestamp(new Date().getTime());
     }
 
     public ProxiedSession(UUID uuid) {
@@ -54,6 +55,7 @@ public class ProxiedSession {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        this.start = new Timestamp(new Date().getTime());
     }
 
     public long getSessionTime() {
@@ -145,12 +147,14 @@ public class ProxiedSession {
     }
 
     public void save() {
-        // @TODO On save a la deconnection
         ProxyServer.getInstance().getScheduler().runAsync(AuthBungee.STRAW, () -> {
             try {
                 Connection connection = StrawAPIBungee.getAPI().getDataFactory().getDataSource().getConnection();
-                PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO sessions () VALUES ()");
-
+                PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO sessions (strawid, start, ip, version) VALUES (?, ?, ?, ?)");
+                preparedStatement.setInt(1, this.straw_id);
+                preparedStatement.setTimestamp(2, start);
+                preparedStatement.setString(3, this.lastIP);
+                preparedStatement.setString(4, "");
                 preparedStatement.executeUpdate();
                 preparedStatement.close();
                 connection.close();
@@ -161,6 +165,8 @@ public class ProxiedSession {
     }
 
     public void insert() {
+        if (exist()) update();
+        else
         try {
             Connection connection = StrawAPIBungee.getAPI().getDataFactory().getDataSource().getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO players (uuid, pseudo, ip, password, premium) VALUES (?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
@@ -185,11 +191,12 @@ public class ProxiedSession {
     public void update() {
         try {
             Connection connection = StrawAPIBungee.getAPI().getDataFactory().getDataSource().getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement("UPDATE players SET pseudo = ?, ip = ?, password = ? WHERE uuid = ?");
+            PreparedStatement preparedStatement = connection.prepareStatement("UPDATE players SET pseudo = ?, ip = ?, password = ?, premium = ? WHERE uuid = ?");
             preparedStatement.setString(1, this.username);
             preparedStatement.setString(2, this.lastIP);
             preparedStatement.setString(3, this.password);
-            preparedStatement.setString(4, this.uuid.toString());
+            preparedStatement.setBoolean(4, this.premium);
+            preparedStatement.setString(5, this.uuid.toString());
             preparedStatement.executeUpdate();
             preparedStatement.close();
             connection.close();

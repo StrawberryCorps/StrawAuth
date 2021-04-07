@@ -26,12 +26,13 @@ public class RegisterCommand extends AbstractBCommand {
             return false;
 
         ProxiedPlayer proxiedPlayer = (ProxiedPlayer) commandSender;
+        ProxiedSession proxiedSession = AuthBungee.STRAW.getProxiedSession(proxiedPlayer.getUniqueId());
+        if (proxiedSession.isPremium()) return true;
         if (strings.length < 2) {
             proxiedPlayer.sendMessage(new ComponentBuilder(AuthBungee.STRAW.getPrefix() + " §6Utilise : /register <mdp> <confirme mdp>").create());
             return false;
         }
 
-        ProxiedSession proxiedSession = AuthBungee.STRAW.getProxiedSession(proxiedPlayer.getUniqueId());
         if (!proxiedSession.isPremium() && proxiedSession.getPassword() != null) {
             proxiedPlayer.sendMessage(new ComponentBuilder(AuthBungee.STRAW.getPrefix() + " §cVous êtes déjà enregistré !").create());
             return false;

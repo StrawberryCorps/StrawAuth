@@ -27,12 +27,14 @@ public class LoginCommand extends AbstractBCommand {
             return false;
 
         ProxiedPlayer proxiedPlayer = (ProxiedPlayer) commandSender;
+        ProxiedSession proxiedSession = AuthBungee.STRAW.getProxiedSession(proxiedPlayer.getUniqueId());
+
+        if (proxiedSession.isPremium())return true;
         if (strings.length < 1) {
             proxiedPlayer.sendMessage(new ComponentBuilder(AuthBungee.STRAW.getPrefix() + " §6Utilise : /login <mdp>").create());
             return false;
         }
 
-        ProxiedSession proxiedSession = AuthBungee.STRAW.getProxiedSession(proxiedPlayer.getUniqueId());
         if (!proxiedSession.isPremium() && proxiedSession.getPassword() == null) {
             proxiedPlayer.sendMessage(new ComponentBuilder(AuthBungee.STRAW.getPrefix() + " §cVous êtes pas enregistré !").create());
             return false;

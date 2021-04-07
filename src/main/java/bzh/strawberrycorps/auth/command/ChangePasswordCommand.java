@@ -27,12 +27,13 @@ public class ChangePasswordCommand extends AbstractBCommand {
             return false;
 
         ProxiedPlayer proxiedPlayer = (ProxiedPlayer) commandSender;
+        ProxiedSession proxiedSession = AuthBungee.STRAW.getProxiedSession(proxiedPlayer.getUniqueId());
+        if (proxiedSession.isPremium())return true;
         if (strings.length < 2) {
             proxiedPlayer.sendMessage(new ComponentBuilder(AuthBungee.STRAW.getPrefix() + " §6Utilise : /changepassword <mdp> <nouveau mdp>").create());
             return false;
         }
 
-        ProxiedSession proxiedSession = AuthBungee.STRAW.getProxiedSession(proxiedPlayer.getUniqueId());
         if (!proxiedSession.isPremium() && proxiedSession.getPassword() == null) {
             proxiedPlayer.sendMessage(new ComponentBuilder(AuthBungee.STRAW.getPrefix() + " §cVous devez être enregistré !").create());
             return false;

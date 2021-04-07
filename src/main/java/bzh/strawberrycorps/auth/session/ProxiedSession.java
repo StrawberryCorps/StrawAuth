@@ -29,13 +29,6 @@ public class ProxiedSession {
     private int version;
     private boolean inDb;
 
-    public ProxiedSession(UUID uuid, String name, String lastIP) {
-        this.uuid = uuid;
-        this.username = name;
-        this.lastIP = lastIP;
-        this.start = new Timestamp(new Date().getTime());
-    }
-
     public ProxiedSession(UUID uuid) {
         try {
             Connection connection = StrawAPIBungee.getAPI().getDataFactory().getDataSource().getConnection();
@@ -154,7 +147,7 @@ public class ProxiedSession {
                 preparedStatement.setInt(1, this.straw_id);
                 preparedStatement.setTimestamp(2, start);
                 preparedStatement.setString(3, this.lastIP);
-                preparedStatement.setString(4, "");
+                preparedStatement.setInt(4, this.version);
                 preparedStatement.executeUpdate();
                 preparedStatement.close();
                 connection.close();

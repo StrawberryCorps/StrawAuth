@@ -1,5 +1,7 @@
 package bzh.strawberrycorps.auth.listener.bukkit;
 
+import bzh.strawberrycorps.auth.AuthSpigot;
+import org.bukkit.Location;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
@@ -18,6 +20,7 @@ public class PlayerListeners implements Listener {
     @EventHandler
     public void onLogin(PlayerJoinEvent event) {
         event.setJoinMessage(null);
+        event.getPlayer().teleport(new Location(AuthSpigot.STRAW.getServer().getWorlds().get(0), 2.5, 56, 8.5, 180,0));
     }
 
     @EventHandler

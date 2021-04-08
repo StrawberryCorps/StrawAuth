@@ -32,7 +32,6 @@ public class PostLogin implements Listener {
         session.setLastIP(player.getAddress().getAddress().getHostAddress());
 
         if(!session.isPremium()) {
-
             //register
             if(session.getPassword() == null){
                 player.sendMessage(new TextComponent("Bienvenue sur notre serveur"));
@@ -43,7 +42,6 @@ public class PostLogin implements Listener {
             else{
                 player.sendMessage(new TextComponent("Merci de vous connecter à l'aide de la commande §c/login §e<MdP>§r."));
             }
-
         } else {
             player.sendMessage(new TextComponent(AuthBungee.STRAW.getPrefix() + "§aConnecté sous compte premium"));
             session.setLastIP(player.getAddress().getAddress().getHostAddress());

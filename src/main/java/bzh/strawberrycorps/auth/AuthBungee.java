@@ -55,7 +55,7 @@ public class AuthBungee extends Plugin {
     }
 
     public String getPrefix() {
-        return "§cSTRAW §7" + SymbolUtils.ARROW_DOUBLE + " §r";
+        return "§cSTRAW §7" + SymbolUtils.ARROW_DOUBLE + " ";
     }
 
     public Mojang getMojang() {

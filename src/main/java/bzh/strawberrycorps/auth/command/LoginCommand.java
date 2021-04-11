@@ -31,26 +31,26 @@ public class LoginCommand extends AbstractBCommand {
 
         if (proxiedSession.isPremium())return true;
         if (strings.length < 1) {
-            proxiedPlayer.sendMessage(new ComponentBuilder(AuthBungee.STRAW.getPrefix() + " §6Utilise : /login <mdp>").create());
+            proxiedPlayer.sendMessage(new ComponentBuilder(AuthBungee.STRAW.getPrefix() + "§6Utilise : /login <mdp>").create());
             return false;
         }
 
         if (!proxiedSession.isPremium() && proxiedSession.getPassword() == null) {
-            proxiedPlayer.sendMessage(new ComponentBuilder(AuthBungee.STRAW.getPrefix() + " §cVous êtes pas enregistré !").create());
+            proxiedPlayer.sendMessage(new ComponentBuilder(AuthBungee.STRAW.getPrefix() + "§cVous êtes pas enregistré !").create());
             return false;
         }
         if (proxiedSession.isPremium() || proxiedSession.isLogged()) {
-            proxiedPlayer.sendMessage(new ComponentBuilder(AuthBungee.STRAW.getPrefix() + " §cVous êtes déjà authentifié !").create());
+            proxiedPlayer.sendMessage(new ComponentBuilder(AuthBungee.STRAW.getPrefix() + "§cVous êtes déjà authentifié !").create());
             return false;
         }
 
         if (!Encrypt.getSHA512(strings[0]).equals(proxiedSession.getPassword())) {
-            proxiedPlayer.sendMessage(new ComponentBuilder(AuthBungee.STRAW.getPrefix() + " §cMot de passe incorrect !").create());
+            proxiedPlayer.sendMessage(new ComponentBuilder(AuthBungee.STRAW.getPrefix() + "§cMot de passe incorrect !").create());
             return false;
         }
 
         ProxyServer.getInstance().getScheduler().runAsync(AuthBungee.STRAW, proxiedSession::update);
-        proxiedPlayer.sendMessage(new ComponentBuilder(AuthBungee.STRAW.getPrefix() + " §aVous êtes connecté").create());
+        proxiedPlayer.sendMessage(new ComponentBuilder(AuthBungee.STRAW.getPrefix() + "§aVous êtes connecté").create());
         proxiedSession.setLastIP(proxiedPlayer.getAddress().getAddress().getHostAddress());
         proxiedSession.setLogged(true);
         proxiedPlayer.connect(ProxyServer.getInstance().getServerInfo("Lobby"));

@@ -2,6 +2,7 @@ package bzh.strawberrycorps.auth;
 
 import bzh.strawberry.api.util.SymbolUtils;
 import bzh.strawberrycorps.auth.command.ChangePasswordCommand;
+import bzh.strawberrycorps.auth.command.LobbyCommand;
 import bzh.strawberrycorps.auth.command.LoginCommand;
 import bzh.strawberrycorps.auth.command.RegisterCommand;
 import bzh.strawberrycorps.auth.listener.*;
@@ -36,6 +37,7 @@ public class AuthBungee extends Plugin {
         ProxyServer.getInstance().getPluginManager().registerCommand(this, new ChangePasswordCommand());
         ProxyServer.getInstance().getPluginManager().registerCommand(this, new LoginCommand());
         ProxyServer.getInstance().getPluginManager().registerCommand(this, new RegisterCommand());
+        ProxyServer.getInstance().getPluginManager().registerCommand(this, new LobbyCommand());
 
         getProxy().getPluginManager().registerListener(this, new PostLogin());
         getProxy().getPluginManager().registerListener(this, new PreLogin());

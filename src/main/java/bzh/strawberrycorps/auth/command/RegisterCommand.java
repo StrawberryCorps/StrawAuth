@@ -29,41 +29,40 @@ public class RegisterCommand extends AbstractBCommand {
         ProxiedSession proxiedSession = AuthBungee.STRAW.getProxiedSession(proxiedPlayer.getUniqueId());
         if (proxiedSession.isPremium()) return true;
         if (strings.length < 2) {
-            proxiedPlayer.sendMessage(new ComponentBuilder(AuthBungee.STRAW.getPrefix() + " §6Utilise : /register <mdp> <confirme mdp>").create());
+            proxiedPlayer.sendMessage(new ComponentBuilder(AuthBungee.STRAW.getPrefix() + "§6Utilise : /register <mdp> <confirme mdp>").create());
             return false;
         }
 
         if (!proxiedSession.isPremium() && proxiedSession.getPassword() != null) {
-            proxiedPlayer.sendMessage(new ComponentBuilder(AuthBungee.STRAW.getPrefix() + " §cVous êtes déjà enregistré !").create());
+            proxiedPlayer.sendMessage(new ComponentBuilder(AuthBungee.STRAW.getPrefix() + "§cVous êtes déjà enregistré !").create());
             return false;
         }
         if (proxiedSession.isPremium() || proxiedSession.isLogged()) {
-            proxiedPlayer.sendMessage(new ComponentBuilder(AuthBungee.STRAW.getPrefix() + " §cVous êtes déjà authentifié !").create());
+            proxiedPlayer.sendMessage(new ComponentBuilder(AuthBungee.STRAW.getPrefix() + "§cVous êtes déjà authentifié !").create());
             return false;
         }
 
         if (!strings[0].equals(strings[1])) {
-            proxiedPlayer.sendMessage(new ComponentBuilder(AuthBungee.STRAW.getPrefix() + " §cLes mots de passes ne correspondent pas !").create());
+            proxiedPlayer.sendMessage(new ComponentBuilder(AuthBungee.STRAW.getPrefix() + "§cLes mots de passes ne correspondent pas !").create());
             return false;
         }
 
         if (strings[0].equals(proxiedSession.getUsername())) {
-            proxiedPlayer.sendMessage(new ComponentBuilder(AuthBungee.STRAW.getPrefix() + " §cVotre mot de passe ne peut pas être votre pseudo !").create());
+            proxiedPlayer.sendMessage(new ComponentBuilder(AuthBungee.STRAW.getPrefix() + "§cVotre mot de passe ne peut pas être votre pseudo !").create());
             return false;
         }
 
         if (strings[0].length() < 6) {
-            proxiedPlayer.sendMessage(new ComponentBuilder(AuthBungee.STRAW.getPrefix() + " §cVotre mot de passe doit avoir plus de 6 caractères !").create());
+            proxiedPlayer.sendMessage(new ComponentBuilder(AuthBungee.STRAW.getPrefix() + "§cVotre mot de passe doit avoir plus de 6 caractères !").create());
             return false;
         }
 
         proxiedSession.setPassword(strings[0]);
         ProxyServer.getInstance().getScheduler().runAsync(AuthBungee.STRAW, proxiedSession::insert);
-        proxiedPlayer.sendMessage(new ComponentBuilder(AuthBungee.STRAW.getPrefix() + " §cVous avez bien été enregistré !").create());
+        proxiedPlayer.sendMessage(new ComponentBuilder(AuthBungee.STRAW.getPrefix() + "§cVous avez bien été enregistré !").create());
         proxiedSession.setLogged(true);
         proxiedPlayer.connect(ProxyServer.getInstance().getServerInfo("Lobby"));
         proxiedSession.setLastIP(proxiedPlayer.getAddress().getAddress().getHostAddress());
-        proxiedPlayer.connect(ProxyServer.getInstance().getServerInfo("Lobby"));
         return true;
     }
 }

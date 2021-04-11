@@ -63,6 +63,8 @@
             <groupId>bzh.strawberry</groupId>
             <artifactId>api</artifactId>
             <version>0.0.1</version>
+            <scope>system</scope>
+            <systemPath>${basedir}/lib/api-0.0.1.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>net.md-5</groupId>

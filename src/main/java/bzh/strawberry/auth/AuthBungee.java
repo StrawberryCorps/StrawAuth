@@ -1,13 +1,13 @@
-package bzh.strawberrycorps.auth;
+package bzh.strawberry.auth;
 
 import bzh.strawberry.api.util.SymbolUtils;
-import bzh.strawberrycorps.auth.command.ChangePasswordCommand;
-import bzh.strawberrycorps.auth.command.LobbyCommand;
-import bzh.strawberrycorps.auth.command.LoginCommand;
-import bzh.strawberrycorps.auth.command.RegisterCommand;
-import bzh.strawberrycorps.auth.listener.*;
-import bzh.strawberrycorps.auth.session.ProxiedSession;
-import bzh.strawberrycorps.auth.util.Mojang;
+import bzh.strawberry.auth.listener.*;
+import bzh.strawberry.auth.command.ChangePasswordCommand;
+import bzh.strawberry.auth.command.LobbyCommand;
+import bzh.strawberry.auth.command.LoginCommand;
+import bzh.strawberry.auth.command.RegisterCommand;
+import bzh.strawberry.auth.session.ProxiedSession;
+import bzh.strawberry.auth.util.Mojang;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.plugin.Plugin;
 
@@ -47,7 +47,7 @@ public class AuthBungee extends Plugin {
 
         this.mojang = new Mojang(getLogger());
 
-        getLogger().info("Plugin enabled in "+(System.currentTimeMillis() - begin)+" ms.");
+        getLogger().info("Plugin enabled in " + (System.currentTimeMillis() - begin) + " ms.");
         getLogger().info("######################## [StrawAuth - " + getDescription().getVersion() + "] #################################");
     }
 

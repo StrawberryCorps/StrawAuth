@@ -1,4 +1,4 @@
-package bzh.strawberrycorps.auth.util;
+package bzh.strawberry.auth.util;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -29,8 +29,8 @@ public class Mojang {
         this.logger = paramLogger;
     }
 
-    public bzh.strawberrycorps.auth.util.MojangProfile getPremiumProfile(String paramString) {
-        bzh.strawberrycorps.auth.util.MojangProfile localMojangValidateProfile = new bzh.strawberrycorps.auth.util.MojangProfile(paramString);
+    public bzh.strawberry.auth.util.MojangProfile getPremiumProfile(String paramString) {
+        bzh.strawberry.auth.util.MojangProfile localMojangValidateProfile = new bzh.strawberry.auth.util.MojangProfile(paramString);
         ValidateProfile localValidateProfile = System.currentTimeMillis() - this.lastMojangError > TimeUnit.MINUTES.toMillis(10L) ? getValidateProfile(paramString, Api.MOJANG) : getValidateProfile(paramString, Api.CRAFTAPI);
         if ((localValidateProfile == null) || (localValidateProfile.getName() == null) || (localValidateProfile.getId() == null)) {
             return localMojangValidateProfile;

@@ -1,8 +1,8 @@
-package bzh.strawberrycorps.auth.command;
+package bzh.strawberry.auth.command;
 
 import bzh.strawberry.api.command.AbstractBCommand;
-import bzh.strawberrycorps.auth.AuthBungee;
-import bzh.strawberrycorps.auth.session.ProxiedSession;
+import bzh.strawberry.auth.AuthBungee;
+import bzh.strawberry.auth.session.ProxiedSession;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.chat.ComponentBuilder;

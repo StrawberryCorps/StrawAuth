@@ -1,6 +1,6 @@
-package bzh.strawberrycorps.auth.listener.bukkit;
+package bzh.strawberry.auth.listener.bukkit;
 
-import bzh.strawberrycorps.auth.AuthSpigot;
+import bzh.strawberry.auth.AuthSpigot;
 import org.bukkit.Location;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;

@@ -1,8 +1,8 @@
-package bzh.strawberrycorps.auth.session;
+package bzh.strawberry.auth.session;
 
 import bzh.strawberry.api.StrawAPIBungee;
-import bzh.strawberrycorps.auth.AuthBungee;
-import bzh.strawberrycorps.auth.util.Encrypt;
+import bzh.strawberry.auth.AuthBungee;
+import bzh.strawberry.auth.util.Encrypt;
 import net.md_5.bungee.api.ProxyServer;
 
 import java.sql.*;

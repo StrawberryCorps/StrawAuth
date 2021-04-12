@@ -1,7 +1,7 @@
-package bzh.strawberrycorps.auth.listener;
+package bzh.strawberry.auth.listener;
 
-import bzh.strawberrycorps.auth.AuthBungee;
-import bzh.strawberrycorps.auth.session.ProxiedSession;
+import bzh.strawberry.auth.AuthBungee;
+import bzh.strawberry.auth.session.ProxiedSession;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.event.ChatEvent;

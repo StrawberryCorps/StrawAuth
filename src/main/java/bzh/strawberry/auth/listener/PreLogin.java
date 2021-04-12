@@ -1,9 +1,9 @@
-package bzh.strawberrycorps.auth.listener;
+package bzh.strawberry.auth.listener;
 
 import bzh.strawberry.api.StrawAPIBungee;
-import bzh.strawberrycorps.auth.AuthBungee;
-import bzh.strawberrycorps.auth.session.ProxiedSession;
-import bzh.strawberrycorps.auth.util.MojangProfile;
+import bzh.strawberry.auth.AuthBungee;
+import bzh.strawberry.auth.session.ProxiedSession;
+import bzh.strawberry.auth.util.MojangProfile;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.connection.PendingConnection;

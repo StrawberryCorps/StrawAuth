@@ -1,6 +1,6 @@
-package bzh.strawberrycorps.auth.listener;
+package bzh.strawberry.auth.listener;
 
-import bzh.strawberrycorps.auth.AuthBungee;
+import bzh.strawberry.auth.AuthBungee;
 import net.md_5.bungee.api.event.PlayerDisconnectEvent;
 import net.md_5.bungee.api.plugin.Listener;
 import net.md_5.bungee.event.EventHandler;

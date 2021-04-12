@@ -1,6 +1,6 @@
-package bzh.strawberrycorps.auth;
+package bzh.strawberry.auth;
 
-import bzh.strawberrycorps.auth.listener.bukkit.PlayerListeners;
+import bzh.strawberry.auth.listener.bukkit.PlayerListeners;
 import org.bukkit.plugin.java.JavaPlugin;
 
 /*

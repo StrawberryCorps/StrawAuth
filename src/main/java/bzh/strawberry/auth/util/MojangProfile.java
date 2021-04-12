@@ -1,4 +1,4 @@
-package bzh.strawberrycorps.auth.util;
+package bzh.strawberry.auth.util;
 
 import java.util.UUID;
 

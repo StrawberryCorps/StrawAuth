@@ -254,14 +254,14 @@ public class Mojang {
         }
     }
 
-    public static abstract interface ValidateProfile {
+    public interface ValidateProfile {
         public abstract String getId();
         public abstract UUID getUniqueId();
         public abstract String getName();
         public abstract Mojang.Api getApi();
     }
 
-    public static enum Api {
+    public enum Api {
         MOJANG,
         MCAPI,
         CRAFTAPI;

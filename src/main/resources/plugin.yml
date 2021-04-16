@@ -1,5 +1,5 @@
 name: StrawAuth
-main: bzh.strawberrycorps.auth.AuthSpigot
+main: bzh.strawberry.auth.AuthSpigot
 version: ${project.version}
 api-version: 1.16
 authors:

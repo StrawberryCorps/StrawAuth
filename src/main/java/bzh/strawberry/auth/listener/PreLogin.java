@@ -1,7 +1,9 @@
 package bzh.strawberry.auth.listener;
 
+import bzh.strawberry.api.StrawAPI;
 import bzh.strawberry.api.StrawAPIBungee;
 import bzh.strawberry.auth.AuthBungee;
+import bzh.strawberry.auth.AuthSpigot;
 import bzh.strawberry.auth.session.ProxiedSession;
 import bzh.strawberry.auth.util.MojangProfile;
 import net.md_5.bungee.api.ProxyServer;
@@ -18,6 +20,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.UUID;
+import java.util.function.Supplier;
 
 /*
  * This file PreLogin is part of a project StrawAuth.
@@ -56,6 +59,10 @@ public class PreLogin implements Listener {
                 if (uuid == null) {
                     uuid = UUID.nameUUIDFromBytes(("OfflinePlayer:" + pendingConnection.getName()).getBytes(StandardCharsets.UTF_8));
                 }
+
+                assert StrawAPIBungee.getAPI() != null;
+                assert StrawAPIBungee.getAPI().getDataFactory() != null;
+                assert StrawAPIBungee.getAPI().getDataFactory().getDataSource() != null;
 
                 Connection connection = StrawAPIBungee.getAPI().getDataFactory().getDataSource().getConnection();
                 PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM players WHERE pseudo = ?");

@@ -31,7 +31,7 @@ public class AuthBungee extends Plugin {
     public void onEnable() {
         STRAW = this;
         long begin = System.currentTimeMillis();
-        getLogger().info("######################## [StrawAuth - " + getDescription().getVersion() + "] #################################");
+        getLogger().info("######################## [StrawAuth Bungee - " + getDescription().getVersion() + "] #################################");
         SESSIONS = new ArrayList<>();
 
         ProxyServer.getInstance().getPluginManager().registerCommand(this, new ChangePasswordCommand());
@@ -48,7 +48,7 @@ public class AuthBungee extends Plugin {
         this.mojang = new Mojang(getLogger());
 
         getLogger().info("Plugin enabled in " + (System.currentTimeMillis() - begin) + " ms.");
-        getLogger().info("######################## [StrawAuth - " + getDescription().getVersion() + "] #################################");
+        getLogger().info("######################## [StrawAuth Bungee - " + getDescription().getVersion() + "] #################################");
     }
 
     @Override

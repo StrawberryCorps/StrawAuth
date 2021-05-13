@@ -16,7 +16,7 @@ import net.md_5.bungee.event.EventPriority;
  */
 public class ServerConnect implements Listener {
 
-    @EventHandler(priority = EventPriority.NORMAL)
+    @EventHandler(priority = EventPriority.LOWEST)
     public void onServerConnect(ServerConnectEvent event) {
         ProxiedSession proxiedSession = AuthBungee.STRAW.getProxiedSession(event.getPlayer().getUniqueId());
         if (proxiedSession == null) return;

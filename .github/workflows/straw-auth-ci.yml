@@ -23,9 +23,7 @@ jobs:
         uses: shimataro/ssh-key-action@v2
         with:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
-
-      - name: Adding Known Hosts
-        run: ssh-keyscan -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
+          known_hosts: ${{ secrets.SSH_KNOWN_HOSTS }}
 
       - name: Deploy to AuthServeurProxy
         run: rsync -avz ./target/StrawAuth-*.jar ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/root/minecraft/proxy/server/plugins/

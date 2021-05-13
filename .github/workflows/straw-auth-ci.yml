@@ -17,7 +17,7 @@ jobs:
           java-version: 1.8
 
       - name: Build with Maven
-        run: mvn -B verify
+        run: mvn -B clean install
 
       - name: Install SSH Key
         uses: shimataro/ssh-key-action@v2
@@ -25,7 +25,7 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
 
       - name: Adding Known Hosts
-        run: ssh-keyscan -H ${{ secrets.SSH_KNOW_HOST }} >> ~/.ssh/known_hosts
+        run: ssh-keyscan -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
 
       - name: Deploy to AuthServeurProxy
         run: rsync -avz ./target/StrawAuth-*.jar ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/root/minecraft/proxy/server/plugins/

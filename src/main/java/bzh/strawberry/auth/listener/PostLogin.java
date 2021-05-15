@@ -46,7 +46,7 @@ public class PostLogin implements Listener {
             player.sendMessage(new TextComponent(AuthBungee.STRAW.getPrefix() + "§aConnecté sous compte premium"));
             session.setLastIP(player.getAddress().getAddress().getHostAddress());
             session.setLogged(true);
-            if (player.getServer() == null || !player.getServer().getInfo().getName().equals("Lobby"))
+//            if (player.getServer() == null || !player.getServer().getInfo().getName().equals("Lobby"))
                 player.connect(ProxyServer.getInstance().getServerInfo("Lobby"));
         }
 

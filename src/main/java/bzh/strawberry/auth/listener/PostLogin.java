@@ -20,9 +20,6 @@ public class PostLogin implements Listener {
 
     @EventHandler(priority = EventPriority.LOWEST)
     public void onPostLogin(PostLoginEvent event) {
-        // save du temps pour stats
-        long startTime = System.currentTimeMillis();
-
         // var utiles
         final ProxiedPlayer player = event.getPlayer();
         ProxiedSession session = AuthBungee.STRAW.getProxiedSession(player.getUniqueId());
@@ -30,7 +27,6 @@ public class PostLogin implements Listener {
         // save du pseudo du joueur : changement de pseudo d'un premium :smirk:
         session.setUsername(player.getName());
         session.setLastIP(player.getAddress().getAddress().getHostAddress());
-
         if(!session.isPremium()) {
             //register
             if(session.getPassword() == null){
@@ -46,10 +42,6 @@ public class PostLogin implements Listener {
             player.sendMessage(new TextComponent(AuthBungee.STRAW.getPrefix() + "§aConnecté sous compte premium"));
             session.setLastIP(player.getAddress().getAddress().getHostAddress());
             session.setLogged(true);
-//            if (player.getServer() == null || !player.getServer().getInfo().getName().equals("Lobby"))
-                player.connect(ProxyServer.getInstance().getServerInfo("Lobby"));
         }
-
-//        StrawSpigot.STRAW.getLogger().info("[StrawAuth] PostLoginEvent : Compte de " + player.getName() + " chargé en " + (System.currentTimeMillis() - startTime) + " ms");
     }
 }

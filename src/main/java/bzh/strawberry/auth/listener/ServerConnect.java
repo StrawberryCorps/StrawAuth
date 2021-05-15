@@ -19,9 +19,9 @@ public class ServerConnect implements Listener {
     @EventHandler(priority = EventPriority.LOWEST)
     public void onServerConnect(ServerConnectEvent event) {
         ProxiedSession proxiedSession = AuthBungee.STRAW.getProxiedSession(event.getPlayer().getUniqueId());
+        if (event.getReason() != ServerConnectEvent.Reason.JOIN_PROXY) return;
         if (proxiedSession == null) return;
-        if (proxiedSession.isLogged() || proxiedSession.isPremium()) return;
-//        if (event.getTarget() != null && !event.getTarget().getName().equals("Login"))
-//            event.setTarget(ProxyServer.getInstance().getServerInfo("Login"));
+        if (proxiedSession.isLogged() || proxiedSession.isPremium())
+            event.setTarget(ProxyServer.getInstance().getServerInfo("Lobby"));
     }
 }

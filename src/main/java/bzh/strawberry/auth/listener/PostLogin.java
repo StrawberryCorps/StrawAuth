@@ -1,5 +1,6 @@
 package bzh.strawberry.auth.listener;
 
+import bzh.strawberry.api.auth.event.InitSessionEvent;
 import bzh.strawberry.auth.AuthBungee;
 import bzh.strawberry.auth.session.ProxiedSession;
 import net.md_5.bungee.api.ProxyServer;
@@ -43,5 +44,6 @@ public class PostLogin implements Listener {
             session.setLastIP(player.getAddress().getAddress().getHostAddress());
             session.setLogged(true);
         }
+        ProxyServer.getInstance().getPluginManager().callEvent(new InitSessionEvent(player, session));
     }
 }

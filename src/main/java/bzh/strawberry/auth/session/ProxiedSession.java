@@ -1,6 +1,7 @@
 package bzh.strawberry.auth.session;
 
 import bzh.strawberry.api.StrawAPIBungee;
+import bzh.strawberry.api.auth.ISession;
 import bzh.strawberry.auth.AuthBungee;
 import bzh.strawberry.auth.util.Encrypt;
 import net.md_5.bungee.api.ProxyServer;
@@ -15,7 +16,7 @@ import java.util.UUID;
  * This file as the whole project shouldn't be modify by others without the express permission from StrawAuth author(s).
  * Also this comment shouldn't get remove from the file. (see Licence)
  */
-public class ProxiedSession {
+public class ProxiedSession implements ISession {
 
     private int straw_id;
     private UUID uuid;

@@ -1,7 +1,7 @@
 name: StrawAuth
 main: bzh.strawberry.auth.AuthSpigot
 version: ${project.version}
-api-version: 1.16
+api-version: 1.19
 authors:
   - Eclixal
   - Uicias

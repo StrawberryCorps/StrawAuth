@@ -39,7 +39,7 @@ public class PreLogin implements Listener {
                 PendingConnection pendingConnection = event.getConnection();
 
                 // Check pseudo crack
-                if (!pendingConnection.getName().matches("[a-zA-Z0-9_]{3,16}")) {
+                if (!pendingConnection.getName().matches("\\w{3,16}")) {
                     event.setCancelled(true);
                     event.setCancelReason(new ComponentBuilder("§cVotre pseudo ne respecte pas la norme !").create());
                     event.completeIntent(AuthBungee.STRAW);
@@ -65,12 +65,12 @@ public class PreLogin implements Listener {
                 assert StrawAPIBungee.getAPI().getDataFactory().getDataSource() != null;
 
                 Connection connection = StrawAPIBungee.getAPI().getDataFactory().getDataSource().getConnection();
-                PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM players WHERE pseudo = ?");
+                PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM straw_players WHERE pseudo = ?");
                 preparedStatement.setString(1, pendingConnection.getName());
                 ResultSet resultSet = preparedStatement.executeQuery();
                 if (resultSet.next()) {
                     uuid = UUID.fromString(resultSet.getString("uuid"));
-                    pendingConnection.setOnlineMode(resultSet.getInt("premium") == 1);
+                    pendingConnection.setOnlineMode(resultSet.getBoolean("premium"));
                 }
                 resultSet.close();
                 preparedStatement.close();

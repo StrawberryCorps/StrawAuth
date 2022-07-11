@@ -33,12 +33,12 @@ public class ProxiedSession implements ISession {
     public ProxiedSession(UUID uuid) {
         try {
             Connection connection = StrawAPIBungee.getAPI().getDataFactory().getDataSource().getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM players WHERE uuid = ?");
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM straw_players WHERE unique_id = ?");
             preparedStatement.setString(1, uuid.toString());
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
-                straw_id = resultSet.getInt("id");
-                this.uuid = UUID.fromString(resultSet.getString("uuid"));
+                straw_id = resultSet.getInt("straw_id");
+                this.uuid = UUID.fromString(resultSet.getString("unique_id"));
                 this.password = resultSet.getString("password");
                 this.premium = resultSet.getBoolean("premium");
                 this.inDb = true;
@@ -144,7 +144,7 @@ public class ProxiedSession implements ISession {
         ProxyServer.getInstance().getScheduler().runAsync(AuthBungee.STRAW, () -> {
             try {
                 Connection connection = StrawAPIBungee.getAPI().getDataFactory().getDataSource().getConnection();
-                PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO sessions (strawid, start, ip, version) VALUES (?, ?, ?, ?)");
+                PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO straw_sessions (straw_id, start, ip, version) VALUES (?, ?, ?, ?)");
                 preparedStatement.setInt(1, this.straw_id);
                 preparedStatement.setTimestamp(2, start);
                 preparedStatement.setString(3, this.lastIP);
@@ -160,37 +160,36 @@ public class ProxiedSession implements ISession {
 
     public void insert() {
         if (exist()) update();
-        else
-        try {
-            Connection connection = StrawAPIBungee.getAPI().getDataFactory().getDataSource().getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO players (uuid, pseudo, ip, password, premium) VALUES (?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
-            preparedStatement.setString(1, this.uuid.toString());
-            preparedStatement.setString(2, this.username);
-            preparedStatement.setString(3, this.lastIP);
-            preparedStatement.setString(4, this.password);
-            preparedStatement.setBoolean(5, this.isPremium());
-            preparedStatement.executeUpdate();
-            ResultSet resultSet = preparedStatement.getGeneratedKeys();
-            if (resultSet.next()) {
-                straw_id = resultSet.getInt(1);
+        else {
+            try {
+                Connection connection = StrawAPIBungee.getAPI().getDataFactory().getDataSource().getConnection();
+                PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO straw_players (unique_id, pseudo, password, premium) VALUES (?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
+                preparedStatement.setString(1, this.uuid.toString());
+                preparedStatement.setString(2, this.username);
+                preparedStatement.setString(3, this.password);
+                preparedStatement.setBoolean(4, this.isPremium());
+                preparedStatement.executeUpdate();
+                ResultSet resultSet = preparedStatement.getGeneratedKeys();
+                if (resultSet.next()) {
+                    straw_id = resultSet.getInt(1);
+                }
+                resultSet.close();
+                preparedStatement.close();
+                connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
             }
-            resultSet.close();
-            preparedStatement.close();
-            connection.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
         }
     }
 
     public void update() {
         try {
             Connection connection = StrawAPIBungee.getAPI().getDataFactory().getDataSource().getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement("UPDATE players SET pseudo = ?, ip = ?, password = ?, premium = ? WHERE uuid = ?");
+            PreparedStatement preparedStatement = connection.prepareStatement("UPDATE straw_players SET pseudo = ?, password = ?, premium = ? WHERE unique_id = ?");
             preparedStatement.setString(1, this.username);
-            preparedStatement.setString(2, this.lastIP);
-            preparedStatement.setString(3, this.password);
-            preparedStatement.setBoolean(4, this.premium);
-            preparedStatement.setString(5, this.uuid.toString());
+            preparedStatement.setString(2, this.password);
+            preparedStatement.setBoolean(3, this.premium);
+            preparedStatement.setString(4, this.uuid.toString());
             preparedStatement.executeUpdate();
             preparedStatement.close();
             connection.close();
@@ -204,7 +203,7 @@ public class ProxiedSession implements ISession {
         boolean exist = false;
         try {
             Connection connection = StrawAPIBungee.getAPI().getDataFactory().getDataSource().getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM players WHERE uuid = ?");
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT straw_id FROM straw_players WHERE unique_id = ?");
             preparedStatement.setString(1, uuid.toString());
             ResultSet resultSet = preparedStatement.executeQuery();
             exist = resultSet.next();

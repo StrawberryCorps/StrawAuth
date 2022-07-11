@@ -65,11 +65,11 @@ public class PreLogin implements Listener {
                 assert StrawAPIBungee.getAPI().getDataFactory().getDataSource() != null;
 
                 Connection connection = StrawAPIBungee.getAPI().getDataFactory().getDataSource().getConnection();
-                PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM straw_players WHERE pseudo = ?");
+                PreparedStatement preparedStatement = connection.prepareStatement("SELECT unique_id,premium FROM straw_players WHERE pseudo = ?");
                 preparedStatement.setString(1, pendingConnection.getName());
                 ResultSet resultSet = preparedStatement.executeQuery();
                 if (resultSet.next()) {
-                    uuid = UUID.fromString(resultSet.getString("uuid"));
+                    uuid = UUID.fromString(resultSet.getString("unique_id"));
                     pendingConnection.setOnlineMode(resultSet.getBoolean("premium"));
                 }
                 resultSet.close();

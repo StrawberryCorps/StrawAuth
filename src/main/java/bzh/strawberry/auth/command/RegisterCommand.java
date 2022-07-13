@@ -22,10 +22,9 @@ public class RegisterCommand extends AbstractBCommand {
 
     @Override
     protected boolean onCommand(CommandSender commandSender, String[] strings) {
-        if (!(commandSender instanceof ProxiedPlayer))
+        if (!(commandSender instanceof ProxiedPlayer proxiedPlayer))
             return false;
 
-        ProxiedPlayer proxiedPlayer = (ProxiedPlayer) commandSender;
         ProxiedSession proxiedSession = AuthBungee.STRAW.getProxiedSession(proxiedPlayer.getUniqueId());
         if (proxiedSession.isPremium()) return true;
         if (strings.length < 2) {
